@@ -1,7 +1,15 @@
 import org.apache.poi.sl.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 import io.restassured.path.json.JsonPath;
 import static io.restassured.RestAssured.baseURI;
@@ -17,8 +25,15 @@ public class Seera_Task {
 	
 	 private String End_point = "https://www.almosafer.com";
 
+	 ExtentReports extent;
+     ExtentTest Logger;
 
-
+	 @BeforeTest
+	 public void Start_Testing()
+	 {
+		    extent = new ExtentReports();
+            ExtentHtmlReporter HTML_Report = new ExtentHtmlReporter("ExtentReport.html");
+            }
 
 	    @Test()
 	    public void Get_API()
@@ -87,7 +102,12 @@ public class Seera_Task {
 	                .then().assertThat().statusCode(200);
 
 	    }
-
-
+	    
+	    @AfterTest
+	    public void TearDown()
+	    {
+	    	extent.flush();
+	    }
+	   
 
 }
